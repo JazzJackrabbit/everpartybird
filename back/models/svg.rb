@@ -22,10 +22,22 @@ class SVG
       end
       output
 
+    when 'SmartShapes::SmartText'
+      x, y, font_family = model.x, model.y, model.font_family
+      font_size, color, font_weight = model.font_size, model.color, model.font_weight
+      output = "<text x=\"#{x}\" y=\"#{y}\" font-family=\"#{font_family}\" font-size=\"#{font_size}\"
+                font-weight=\"#{font_weight}\" fill=\"#{color}\">"
+      output << model.text
+      output << "</text>\n"
+
     when 'Everbird'
       output = "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\">\n"
       model.bird.parts.each do |part|
         output << SVG.svg(part)
+      end
+      if model.text
+        output << SVG.svg(model.bubble)
+        output << SVG.svg(model.text)
       end
       output << "</svg>"
     end

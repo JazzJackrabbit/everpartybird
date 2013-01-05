@@ -1,15 +1,15 @@
 require_relative '../modules/smart_shapes'
-require_relative '../shared/editable'
 require_relative 'svg'
 require_relative 'html_worker'
 
 class Everbird
   include SmartShapes
   include Editable
+  include Configurable
 
-  attr_accessor :bird
+  attr_accessor :bird, :bubble, :text
 
-  def initialize  
+  def initialize(text=nil)
     a = Point.new(0.2, 11)
     b = Point.new(1.8, 12.6)
     c = Point.new(0.5, 13.6)
@@ -58,6 +58,34 @@ class Everbird
     head = SmartMultiPolygon.new('head', hp1, hp2, hp3, hp4)
 
     @bird = SmartMultiPolygonGroup.new(tail, body, leg, head)
+
+    a1 = Point.new(0, 0)
+    b1 = Point.new(2.4, 1.4)
+    c1 = Point.new(4.6, 1.7)
+    d1 = Point.new(5.3, 2.7)
+    e1 = Point.new(6.3, 3.2)
+    f1 = Point.new(6.3, 4.6)
+    g1 = Point.new(3.2, 7.1)
+    h1 = Point.new(1.3, 6.6)
+    i1 = Point.new(0, 4.2)
+
+    bb1 = SmartPolygon.new(a1,g1,h1,i1)
+    bb2 = SmartPolygon.new(a1,b1,c1,d1,g1)
+    bb3 = SmartPolygon.new(g1,d1,e1,f1)
+
+    @bubble = SmartMultiPolygon.new('bubble', bb1, bb2, bb3).shift(20,5)
+   end
+
+  def say!(options={})
+    p = Point.between(@bubble.top_left_point, @bubble.points[3])
+    x,y = p.x + options[:dx].to_i, p.y+options[:dy].to_i
+    @text = SmartText.new(options[:text], 
+      x: x,
+      y: y,
+      font_family: options[:font_family],
+      font_size: options[:font_size],
+      font_weight: options[:font_weight],
+      color: Color.color(options[:color]))
   end
 
   def to_svg
@@ -65,7 +93,16 @@ class Everbird
   end
 
   def to_html
-    HTMLWorker.wrap(to_svg)
+    style = "html{
+      background-color: white;
+    }
+    #main {
+      padding: 115px 0 0 235px;
+    }"
+    content = "<section id=\"main\">\n
+      #{to_svg}\n
+    </section>"
+    HTMLWorker.wrap(content, style)
   end
 
   def save(filename='everbird.html', dir='../saved')

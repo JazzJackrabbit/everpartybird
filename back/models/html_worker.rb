@@ -3,8 +3,17 @@ require 'launchy'
 require 'fileutils'
 
 class HTMLWorker
-  def self.wrap(tags)
-    "<html>\n<body>\n#{tags}\n</body>\n</html>"
+  def self.wrap(tags, style="")
+    "<html>\n
+      <head>\n
+        <style>\n
+          #{style}\n
+        </style>\n  
+      </head>\n
+      <body>\n
+        #{tags}\n
+      </body>\n
+    </html>"
   end
 
   def self.save(filename, directory, html)
@@ -25,8 +34,10 @@ class HTMLWorker
     FileUtils.mkdir_p(dir) unless File.directory?(dir)
     save(filename, tmp_directory, html)
     Launchy.open(path)
-    sleep 5
-    FileUtils.rm_rf(dir)
+  
+    # Delete tmp files
+    # sleep 5
+    # FileUtils.rm_rf(dir)
   end
 
   protected

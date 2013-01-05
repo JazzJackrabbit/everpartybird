@@ -1,5 +1,77 @@
 <html>
+  <head>
+    <style>
+      html{
+        background-color: white;
+      }
+      #main {
+        padding: 115px 0 0 235px;
+      }
+    </style>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script>
+      var timerStop = false;
+      
+      $(document).ready(function(){
+        window.setTimeout(function(){countdown()}, 1000);
+      });
+
+      function handle_ajax_response(response, success, error){
+        if (typeof response.error == "undefined"){
+          success();
+        } else {
+          error();
+        }
+      }
+
+      function party(){
+        $('html').css('background-color', 'black');
+        jQuery.ajax({
+          type: "POST",
+          url: "/party",
+          data: {},
+          success: function(response){
+            handle_ajax_response(response,
+            function(){
+              $('#main').html(response);
+            },
+            function(){})
+          }
+        });
+        return false;
+      }
+
+      function countdown() {
+        if (timerStop == false) {
+          var timestamp = $('#timestamp').val();
+          jQuery.ajax({
+            type: "POST",
+            url: "/tick",
+            data: {"timestamp": timestamp},
+            success: function(response){
+              handle_ajax_response(response,
+              function(){
+                $('#timestamp').val(timestamp-1);
+                if ($('#timestamp').val() == 0) {
+                   tierStop = true;
+                   window.setInterval(party, 200);
+                } else {
+                  $('#main').html(response);
+                  window.setTimeout(function(){countdown()}, 1000);
+                }
+              },
+              function(){})
+            }
+          });
+          return false;
+        }
+      }
+    </script>
+  </head>
   <body>
-    <%= bird.to_svg %>
+    <input id="timestamp" type="hidden" value="10">
+    <section id='main'>
+      <%= bird.to_svg %>
+    </section>
   </body>
 </html>

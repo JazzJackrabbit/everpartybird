@@ -3,6 +3,12 @@ module Shapes
     def to_s
       "#{format("%.2f",self.x)},#{format("%.2f",self.y)}"
     end
+
+    def self.between(a,b)
+      x = (b.x-a.x).abs/2 + a.x
+      y = (b.y-a.y).abs/2 + a.y
+      Point.new(x,y) 
+    end
   end
 
   class Polygon
@@ -22,6 +28,13 @@ module Shapes
       polygons.each do |p|
         @polygons << p
       end
+    end
+  end
+
+  class Text
+    attr_accessor :text
+    def initialize(str)
+      @text = str
     end
   end
 end
