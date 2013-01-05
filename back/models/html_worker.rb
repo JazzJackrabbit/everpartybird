@@ -36,8 +36,8 @@ class HTMLWorker
     Launchy.open(path)
   
     # Delete tmp files
-    # sleep 5
-    # FileUtils.rm_rf(dir)
+    sleep 5
+    FileUtils.rm_rf(dir)
   end
 
   protected
