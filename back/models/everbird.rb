@@ -1,10 +1,11 @@
-require 'rubygems'
-require 'launchy'
-require 'fileutils'
-require './modules/smart_shapes'
+require_relative '../modules/smart_shapes'
+require_relative '../shared/editable'
+require_relative 'svg'
+require_relative 'html_worker'
 
 class Everbird
   include SmartShapes
+  include Editable
 
   attr_accessor :bird
 
@@ -53,50 +54,25 @@ class Everbird
 
     tail = SmartMultiPolygon.new('tail', tp1, tp2, tp3, tp4)
     body = SmartMultiPolygon.new('body', bp1, bp2, bp3)
-    leg = SmartMultiPolygon.new('leg', lp1, lp2, lp3)
+    leg  = SmartMultiPolygon.new('leg', lp1, lp2, lp3)
     head = SmartMultiPolygon.new('head', hp1, hp2, hp3, hp4)
 
     @bird = SmartMultiPolygonGroup.new(tail, body, leg, head)
   end
 
-  def scale(lvl)
-    dup.tap do |result|
-      result.bird = @bird.scale(lvl)
-    end
-  end
-
   def to_svg
-    output = "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\">\n"
-    @bird.parts.each do |part|
-      output << part.to_svg
-    end
-    output << "</svg>\n"
+    SVG.svg(self)
   end
 
   def to_html
-    "<html>\n<body>\n#{to_svg}\n</body>\n</html>"
+    HTMLWorker.wrap(to_svg)
   end
 
-  def save(filename='everbird.html')
-    File.open(filename, 'w') do |f|
-      f.write to_html
-    end
+  def save(filename='everbird.html', dir='../saved')
+    HTMLWorker.save(filename, dir, to_html)
   end
 
   def open
-    dir = '../tmp'
-    filename = 'everbird.html'
-    path = "#{dir}/#{filename}"
-    FileUtils.mkdir_p(dir)
-    save(path)
-    Launchy.open(path)
-    sleep 5
-    FileUtils.rm_rf(dir)
-  end
-
-  def color(color)
-    dup.tap do |result|
-      result.bird = @bird.color(color)
-    end
+    HTMLWorker.open(to_html)
   end
 end
