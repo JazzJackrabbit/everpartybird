@@ -1,0 +1,9 @@
+source :rubygems
+
+gem 'cuba'
+gem 'cuba-contrib'
+gem 'launchy'
+gem 'fileutils'
+gem 'tilt'
+gem 'sass'
+gem 'coffee-script'

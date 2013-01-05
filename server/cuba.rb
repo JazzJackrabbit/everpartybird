@@ -1,6 +1,8 @@
 require 'cuba'
 require_relative '../back/models/everbird'
 require "cuba/render"
+require 'sass'
+require 'coffee-script'
 
 Cuba.plugin Cuba::Render
 
@@ -47,10 +49,16 @@ Cuba.define do
       res.write render('front/404.html.erb', bird: bird)
     end
 
-    on "css", extension('css') do |file|
+    on "styles", extension('css') do |file|
       on get do
         res['Content-Type'] = 'text/css'
-        res.write render("front/#{File.basename(file)}.css")
+        res.write render("front/styles/#{File.basename(file)}.scss")
+      end
+    end
+
+    on "scripts", extension('coffee') do |file|
+      on get do
+        res.write render("front/scripts/#{File.basename(file)}.js.coffee")
       end
     end
   end
