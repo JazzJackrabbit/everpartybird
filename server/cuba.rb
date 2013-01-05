@@ -46,6 +46,13 @@ Cuba.define do
       })
       res.write render('front/404.html.erb', bird: bird)
     end
+
+    on "css", extension('css') do |file|
+      on get do
+        res['Content-Type'] = 'text/css'
+        res.write render("front/#{File.basename(file)}.css")
+      end
+    end
   end
 
   on post do
