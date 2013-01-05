@@ -24,8 +24,22 @@
         }
       }
 
+      function say(word, scale_x){
+        scale_x = typeof scale_x !== 'undefined' ? scale_x : 1;
+        jQuery.ajax({
+          type: "POST",
+          url: "/say",
+          data: {"word": word, "scale_x": scale_x},
+          success: function(response){
+            handle_ajax_response(response,
+            function(){
+              $('#main').html(response);
+            },
+            function(){})}
+        });
+      }
+
       function party(){
-        $('html').css('background-color', 'black');
         jQuery.ajax({
           type: "POST",
           url: "/party",
@@ -44,26 +58,16 @@
       function countdown() {
         if (timerStop == false) {
           var timestamp = $('#timestamp').val();
-          jQuery.ajax({
-            type: "POST",
-            url: "/tick",
-            data: {"timestamp": timestamp},
-            success: function(response){
-              handle_ajax_response(response,
-              function(){
-                $('#timestamp').val(timestamp-1);
-                if ($('#timestamp').val() == 0) {
-                   tierStop = true;
-                   window.setInterval(party, 200);
-                } else {
-                  $('#main').html(response);
-                  window.setTimeout(function(){countdown()}, 1000);
-                }
-              },
-              function(){})
-            }
-          });
-          return false;
+          if (timestamp-1 == 0) {
+             timerStop = true;
+             say('Party!',"1.5");
+             $('html').css('background-color', 'black');
+             window.setInterval(party, 200);
+          } else {
+            say(timestamp-1);
+            $('#timestamp').val(timestamp-1);
+            window.setTimeout(function(){countdown()}, 1000);
+          }
         }
       }
     </script>

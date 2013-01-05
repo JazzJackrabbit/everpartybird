@@ -70,17 +70,17 @@ Cuba.define do
       res.write bird.to_svg
     end
 
-    on "tick" do
-      on param("timestamp") do |timestamp|
+    on "say" do
+      on param("word"), param("scale_x")do |word, scale_x| 
         bird = Everbird.new.config({
           scale: 30,
           color: 'bird',
           bubble: {
-            static_scale: [1,1],
+            static_scale: [scale_x.to_f,1],
             color: 'bubble'
           },
           content: {
-            text: "#{timestamp.to_i - 1}",
+            text: "#{word}",
             dx: 70,
             dy: 70,
             font_family: 'fantasy',
