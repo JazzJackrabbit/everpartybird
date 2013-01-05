@@ -1,0 +1,15 @@
+GEM
+  remote: http://rubygems.org/
+  specs:
+    cuba (3.1.0)
+      rack
+    cuba-contrib (3.1.0)
+      cuba (~> 3.1)
+    rack (1.4.1)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  cuba
+  cuba-contrib
