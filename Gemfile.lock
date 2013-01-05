@@ -1,11 +1,17 @@
 GEM
   remote: http://rubygems.org/
   specs:
+    addressable (2.3.2)
     cuba (3.1.0)
       rack
     cuba-contrib (3.1.0)
       cuba (~> 3.1)
+    fileutils (0.7)
+      rmagick (>= 2.13.1)
+    launchy (2.1.2)
+      addressable (~> 2.3)
     rack (1.4.1)
+    rmagick (2.13.1)
 
 PLATFORMS
   ruby
@@ -13,3 +19,5 @@ PLATFORMS
 DEPENDENCIES
   cuba
   cuba-contrib
+  fileutils
+  launchy
