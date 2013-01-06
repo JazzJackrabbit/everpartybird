@@ -50,16 +50,16 @@ Cuba.define do
     end
 
     on "styles", extension('css') do |file|
-      on get do
-        res['Content-Type'] = 'text/css'
-        res.write render("front/styles/#{File.basename(file)}.scss")
-      end
+      res['Content-Type'] = 'text/css'
+      res.write render("front/styles/#{File.basename(file)}.scss")
     end
 
     on "scripts", extension('coffee') do |file|
-      on get do
-        res.write render("front/scripts/#{File.basename(file)}.js.coffee")
-      end
+      res.write render("front/scripts/#{File.basename(file)}.js.coffee")
+    end
+
+    on ":anything_else" do
+      res.redirect '/404'
     end
   end
 

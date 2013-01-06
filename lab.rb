@@ -9,11 +9,12 @@ bird = Everbird.new.config({
     color: 'bubble'
   },
   content: {
-    text: '404',
+    text: 'lab!',
     dx: 70,
     dy: 70,
     font_family: 'fantasy',
     font_size: '60',
+    font_weight: 'bold',
     color: '#eeeeee'
   }
 })
