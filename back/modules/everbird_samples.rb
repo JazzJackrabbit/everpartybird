@@ -24,7 +24,7 @@ module EverbirdSamples
       content: {
         text: "lab!",
         font_weight: 'bold',
-        color: 'party!'
+        color: '#eeeeee'
       }
     })
   end
