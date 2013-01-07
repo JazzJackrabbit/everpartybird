@@ -12,12 +12,12 @@ module Configurable
           scale!(value)
           @bubble.scale!(value)
         end
-      when :static_scale
-        if value.is_a?(Array)
-          static_scale!(value[0], value[1])
-        else
-          static_scale!(value)
-        end
+      # when :static_scale
+      #   if value.is_a?(Array)
+      #     static_scale!(value[0], value[1])
+      #   else
+      #     static_scale!(value)
+      #   end
       when :bubble
         @bubble.config!(value)
       when :content

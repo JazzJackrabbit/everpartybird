@@ -1,4 +1,5 @@
 require_relative '../modules/smart_shapes'
+require_relative '../modules/everbird_samples'
 require_relative 'svg'
 require_relative 'html_worker'
 
@@ -6,6 +7,8 @@ class Everbird
   include SmartShapes
   include Editable
   include Configurable
+
+  extend EverbirdSamples
 
   attr_accessor :bird, :bubble, :text
 
@@ -77,15 +80,47 @@ class Everbird
    end
 
   def say!(options={})
+    text = options[:text]
+    color = Color.color(options[:color])
+    font_weight = options[:font_weight]
+    font_family = options[:font_family] || 'fantasy'
+    font_size = options[:font_size] || '60'
+
+    #BUBBLE & TEXT POSITIONING
+      text_limit = 4 #max letters without scaling the bubble
+      upper_limit = 2 #almost the same
+      lm = 4.25 #letter modifier
+      ulm = lm*2.0 #uppercase letter modifier
+
+      upper = 0; 
+      text.split('').each { |letter| upper += 1 if ('A'..'Z').include? letter } 
+
+      if (text.length <= text_limit) && (upper <= upper_limit)
+        dx = 80 - text.length*13.5 - upper*10
+        dy = 70
+        scale_x, scale_y = 1,1
+      elsif (text.length >= text_limit) && (upper <= upper_limit)
+        dx = 40 + (text.length-text_limit)*3.5
+        dy = 70
+        scale_x = 1 + (text.length-text_limit)/lm
+        scale_y = 1
+      else
+        dx, dy = 60, 80
+        scale_x = 1 + (text.length-text_limit)/lm +(upper-upper_limit)/ulm
+        scale_y = 1.15
+      end
+
+    @bubble.static_scale!(scale_x, scale_y)
     p = Point.between(@bubble.top_left_point, @bubble.points[3])
-    x,y = p.x + options[:dx].to_i, p.y+options[:dy].to_i
-    @text = SmartText.new(options[:text], 
+    x,y = p.x+dx, p.y+dy
+    
+    @text = SmartText.new(text, 
       x: x,
       y: y,
-      font_family: options[:font_family],
-      font_size: options[:font_size],
-      font_weight: options[:font_weight],
-      color: Color.color(options[:color]))
+      font_family: font_family,
+      font_size: font_size,
+      font_weight: font_weight,
+      color: color)
   end
 
   def to_svg

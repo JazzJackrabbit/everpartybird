@@ -9,44 +9,15 @@ Cuba.plugin Cuba::Render
 Cuba.define do
   on get do
     on root do
-      bird = Everbird.new.config({
-        scale: 30,
-        color: 'bird',
-        bubble: {
-          static_scale: [1,1],
-          color: 'bubble'
-        },
-        content: {
-          text: '10',
-          dx: 70,
-          dy: 70,
-          font_family: 'fantasy',
-          font_size: '60',
-          # font_weight: 'bold',
-          color: '#eeeeee'
-        }
-      })
-      res.write render('front/index.html.erb', bird: bird)
+      counter = "now"
+      bird = Everbird.party!
+      res.write render('front/index.html.erb', bird: bird, counter: counter)
     end
 
-    on "404" do
-      bird = Everbird.new.config({
-        scale: 30,
-        color: 'bird',
-        bubble: {
-          static_scale: [1.5,1],
-          color: 'bubble'
-        },
-        content: {
-          text: '404',
-          dx: 70,
-          dy: 70,
-          font_family: 'fantasy',
-          font_size: '60',
-          color: '#eeeeee'
-        }
-      })
-      res.write render('front/404.html.erb', bird: bird)
+    on "countdown/:counter" do |counter|
+      res.redirect("/") unless counter.numeric?
+      bird = Everbird.say(counter)
+      res.write render('front/index.html.erb', bird: bird, counter: counter)
     end
 
     on "styles", extension('css') do |file|
@@ -58,6 +29,11 @@ Cuba.define do
       res.write render("front/scripts/#{File.basename(file)}.js.coffee")
     end
 
+    on "404" do
+      bird = Everbird.say('404')
+      res.write render('front/404.html.erb', bird: bird)
+    end
+
     on ":anything_else" do
       res.redirect '/404'
     end
@@ -65,47 +41,21 @@ Cuba.define do
 
   on post do
     on "party" do
-      bird = Everbird.new.config({
-        scale: 30,
-        color: 'party!',
-        bubble: {
-          static_scale: [1.5,1],
-          color: 'party!'
-        },
-        content: {
-          text: 'Party!',
-          dx: 60,
-          dy: 70,
-          font_family: 'fantasy',
-          font_size: '60',
-          font_weight: 'bold',
-          color: 'party!'
-        }
-      })
+      bird = Everbird.party!
       res.write bird.to_svg
     end
 
     on "say" do
-      on param("word"), param("scale_x")do |word, scale_x| 
-        bird = Everbird.new.config({
-          scale: 30,
-          color: 'bird',
-          bubble: {
-            static_scale: [scale_x.to_f,1],
-            color: 'bubble'
-          },
-          content: {
-            text: "#{word}",
-            dx: 70,
-            dy: 70,
-            font_family: 'fantasy',
-            font_size: '60',
-            # font_weight: 'bold',
-            color: '#eeeeee'
-          }
-        })
+      on param("word") do |word| 
+        bird = Everbird.say(word)
         res.write bird.to_svg
       end
     end
+  end
+end
+
+class String
+  def numeric?
+    Integer(self) != nil rescue false
   end
 end
