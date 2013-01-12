@@ -31,7 +31,7 @@ class SVG
       output << "</text>\n"
 
     when 'Everbird'
-      output = "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\">\n"
+      output = "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" width=\"100%\" height=\"100%\">\n"
       model.bird.parts.each do |part|
         output << SVG.svg(part)
       end
