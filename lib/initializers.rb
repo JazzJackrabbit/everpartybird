@@ -7,8 +7,8 @@ require_relative 'mime_type'
 require_relative 'constants'
 
 # Fancy HTML, CSS & JS
-require 'sass'
-require 'coffee-script'
+#require 'sass'
+#require 'coffee-script'
 require 'slim'
 
 # ----

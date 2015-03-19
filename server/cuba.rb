@@ -37,10 +37,10 @@ Cuba.define do
       open(filepath) { |io| res.write(io.read) }
     end
 
-    on SCRIPTS_DIR, extension('coffee') do |file|
+    on SCRIPTS_DIR, extension('js') do |file|
       res['Content-Type'] = MimeType.JavaScript
-      filepath = File.join(WEB_DIR, SCRIPTS_DIR, "#{File.basename(file)}.js.coffee")
-      open(filepath) { |io| res.write CoffeeScript.compile(io.read) }
+      filepath = File.join(WEB_DIR, SCRIPTS_DIR, "#{File.basename(file)}.js")
+      open(filepath) { |io| res.write(io.read) }
     end
 
     # Images (JPG, PNG, GIF, SVG)

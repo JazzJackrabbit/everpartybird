@@ -8,8 +8,8 @@ gem 'cuba-contrib'
 gem 'tilt'
 
 # SASS & CoffeeScript (better than raw CSS & JavaScript)
-gem 'sass'
-gem 'coffee-script'
+#gem 'sass'
+#gem 'coffee-script'
 
 # Slim (better than raw HTML)
 gem 'slim'
