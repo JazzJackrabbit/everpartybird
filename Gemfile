@@ -1,9 +1,25 @@
-source :rubygems
+source 'https://rubygems.org'
 
+# Framework
 gem 'cuba'
 gem 'cuba-contrib'
-gem 'launchy'
-gem 'fileutils'
+
+# Generic interface to multiple Ruby template engines
+gem 'tilt'
+
+# SASS & CoffeeScript (better than raw CSS & JavaScript)
 gem 'sass'
 gem 'coffee-script'
-gem 'tilt'
+
+# Slim (better than raw HTML)
+gem 'slim'
+
+#
+# --- App specific ---
+#
+
+# File manipulations
+gem 'fileutils'
+
+# Opens browser
+gem 'launchy'

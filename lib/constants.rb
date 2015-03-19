@@ -1,0 +1,6 @@
+WEB_DIR = 'web'
+PAGES_DIR = 'pages'
+STYLES_DIR = 'styles'
+SCRIPTS_DIR = 'scripts'
+IMAGES_DIR = 'images'
+FONTS_DIR = 'fonts'

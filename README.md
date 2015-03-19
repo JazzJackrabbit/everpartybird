@@ -1,7 +1,7 @@
 everpartybird
 =============
 
-Just another useless application. 
-Some SVG graphics at the front + Cuba as a Ruby framework.
+A sample application featuring Cuba.rb microframework and Evergreen Godzilla Bird drawn with SVG.
 
-Demo: http://everpartybird.herokuapp.com/countdown/10
+Demo #1: http://everpartybird.herokuapp.com/countdown/10
+Demo #2: http://everpartybird.herokuapp.com/say/hello

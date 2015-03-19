@@ -53,4 +53,3 @@ countdown = ->
     window.setTimeout (->
       countdown()
     ), 1000
-
