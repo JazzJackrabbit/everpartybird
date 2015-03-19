@@ -12,7 +12,7 @@ Party countdown: http://everpartybird.herokuapp.com/countdown/10
 It can talk: http://everpartybird.herokuapp.com/say/hello
 
 
-###Try it offline
+###Try it yourself
 
 ```sh
 $ git clone https://github.com/JazzJackrabbit/everpartybird.git
